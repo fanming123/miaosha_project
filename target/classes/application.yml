@@ -1,0 +1,91 @@
+#???????
+spring:
+  datasource:
+    username: root
+    password: 123456
+    url: jdbc:mysql://localhost:3306/miaosha?serverTimezone=UTC&useUnicode=true&characterEncoding=utf-8
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    type: com.alibaba.druid.pool.DruidDataSource
+    druid:
+      #Spring Boot ???????????????????
+      #druid ???????
+      # ?????
+      initialSize: 5
+      # ???????
+      minIdle: 5
+      # ???????
+      maxActive: 20
+      # ?????????????
+      maxWait: 60000
+      # ???????????????????????????????
+      timeBetweenEvictionRunsMillis: 60000
+      # ??????????????????????
+      minEvictableIdleTimeMillis: 300000
+      # ??????????????????????
+      maxEvictableIdleTimeMillis: 900000
+      # ??????????
+      validationQuery: SELECT 1 FROM DUAL
+      # ?????????????
+      testWhileIdle: true
+      testOnBorrow: false
+      testOnReturn: false
+      # PSCache
+      poolPreparedStatements: true
+
+      # ????????,??????: stat,wall,log4j
+      # stat:?????log4j??????wall???sql??
+      filters: log4j
+      # ???????????SQL
+      maxPoolPreparedStatementPerConnectionSize: 20
+      # ????DruidDataSource?????
+      useGlobalDataSourceStat: true
+      # ??????????????????????
+      connectionProperties: druid.stat.mergeSql=true;druid.stat.sl
+  redis:
+    host: 118.31.6.250
+    port: 6379
+    timeout: 3
+    lettuce:
+      pool:
+        max-active: 10
+        max-wait: 3
+        max-idle: 10
+  thymeleaf:
+    cache: false
+    encoding: utf-8
+    servlet:
+      content-type: text/html
+  resources:
+    add-mappings: true
+    cache:
+      period: 3600
+    chain:
+      cache: true
+      enabled: true
+      html-application-cache: true
+    static-locations: classpath:/static/
+  rabbitmq:
+    host: 118.31.6.250
+    port: 5672
+    username: guest
+    password: guest
+    virtual-host: /
+    listener:
+      simple:
+        concurrency: 10
+        max-concurrency: 10
+        prefetch: 1
+        auto-startup: true
+        default-requeue-rejected: true
+    template:
+      retry:
+        enabled: true
+        initial-interval: 1000
+        max-attempts: 3
+        max-interval: 10000
+        multiplier: 1.0
+mybatis:
+  type-aliases-package: com.example.miaosha1.pojo
+  mapper-locations: com.example.miaosha1.dao/*.xml
+  configuration:
+    map-underscore-to-camel-case: true
